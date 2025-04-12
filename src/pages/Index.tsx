@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/context/AuthContext";
 import { getJobListings, getJobApplications, getReportData } from "@/lib/mock-data";
 import JobList from "@/components/jobs/JobList";
+import JobCard from "@/components/jobs/JobCard";
 import DashboardStats from "@/components/dashboard/DashboardStats";
 import { JobListing, JobApplication, ReportData } from "@/types";
 
