@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "@/context/AuthContext";
 import { getJobListings, createJobApplication, getJobApplications } from "@/lib/mock-data";
@@ -27,6 +26,7 @@ import {
   CheckCircleIcon
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import JobApplicationForm from "@/components/jobs/JobApplicationForm";
 
 const JobDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -36,7 +36,6 @@ const JobDetailPage = () => {
   
   const [job, setJob] = useState<JobListing | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [coverLetter, setCoverLetter] = useState("");
   const [isApplying, setIsApplying] = useState(false);
   const [hasApplied, setHasApplied] = useState(false);
   const [application, setApplication] = useState<JobApplication | null>(null);
@@ -84,7 +83,7 @@ const JobDetailPage = () => {
     loadJob();
   }, [id, navigate, toast, user]);
 
-  const handleApply = async () => {
+  const handleApplicationSubmit = async (formData: any) => {
     if (!user) {
       toast({
         title: "Authentication Required",
@@ -109,7 +108,7 @@ const JobDetailPage = () => {
       const newApplication = await createJobApplication(
         id!,
         user.id,
-        coverLetter
+        formData.coverLetter
       );
       
       setHasApplied(true);
@@ -358,26 +357,12 @@ const JobDetailPage = () => {
               ) : (
                 <div className="space-y-4">
                   {user?.role === "job_seeker" && (
-                    <>
-                      <div className="space-y-2">
-                        <label className="block text-sm font-medium">
-                          Cover Letter (Optional)
-                        </label>
-                        <Textarea
-                          placeholder="Tell the employer why you're a good fit for this position..."
-                          value={coverLetter}
-                          onChange={(e) => setCoverLetter(e.target.value)}
-                          rows={4}
-                        />
-                      </div>
-                      <Button 
-                        className="w-full" 
-                        onClick={handleApply}
-                        disabled={isApplying}
-                      >
-                        {isApplying ? "Submitting..." : "Apply Now"}
-                      </Button>
-                    </>
+                    <JobApplicationForm
+                      jobId={id!}
+                      userId={user.id}
+                      onApplicationSubmit={handleApplicationSubmit}
+                      isSubmitting={isApplying}
+                    />
                   )}
                   
                   {!user && (
