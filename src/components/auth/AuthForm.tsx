@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/context/AuthContext";
 import { UserRole } from "@/types";
 import { toast } from "@/components/ui/use-toast";
+import { EyeIcon, EyeOffIcon, UserIcon, BriefcaseIcon, ShieldIcon } from "lucide-react";
 
 const AuthForm = () => {
   const { signIn, signUp, resetPassword } = useAuth();
@@ -17,6 +18,7 @@ const AuthForm = () => {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState<UserRole>("job_seeker");
   const [activeTab, setActiveTab] = useState("login");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,6 +47,15 @@ const AuthForm = () => {
       toast({
         title: "Missing fields",
         description: "Please enter both email and password",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (password.length < 6) {
+      toast({
+        title: "Password too short",
+        description: "Password must be at least 6 characters",
         variant: "destructive",
       });
       return;
@@ -82,15 +93,24 @@ const AuthForm = () => {
     }
   };
 
+  const getRoleIcon = (userRole: UserRole) => {
+    switch (userRole) {
+      case "job_seeker":
+        return <UserIcon className="h-4 w-4" />;
+      case "employer":
+        return <BriefcaseIcon className="h-4 w-4" />;
+      case "admin":
+        return <ShieldIcon className="h-4 w-4" />;
+      default:
+        return <UserIcon className="h-4 w-4" />;
+    }
+  };
+
   return (
-    <Card className="w-full max-w-md mx-auto">
+    <Card className="w-full shadow-lg border-opacity-50">
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <CardHeader>
-          <CardTitle className="text-2xl text-center">JobFlow</CardTitle>
-          <CardDescription className="text-center">
-            Connect to real-time career opportunities
-          </CardDescription>
-          <TabsList className="grid w-full grid-cols-2 mt-4">
+          <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="login">Login</TabsTrigger>
             <TabsTrigger value="register">Register</TabsTrigger>
           </TabsList>
@@ -107,6 +127,7 @@ const AuthForm = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
+                  autoComplete="email"
                 />
               </div>
               <div className="space-y-2">
@@ -121,32 +142,57 @@ const AuthForm = () => {
                     Forgot password?
                   </Button>
                 </div>
-                <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    autoComplete="current-password"
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="absolute right-0 top-0"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <EyeOffIcon className="h-4 w-4" />
+                    ) : (
+                      <EyeIcon className="h-4 w-4" />
+                    )}
+                  </Button>
+                </div>
               </div>
               <div className="space-y-2">
                 <Label>I am a:</Label>
                 <RadioGroup
                   value={role}
                   onValueChange={(value) => setRole(value as UserRole)}
-                  className="flex space-x-2"
+                  className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-4"
                 >
-                  <div className="flex items-center space-x-1">
+                  <div className="flex items-center space-x-2">
                     <RadioGroupItem value="job_seeker" id="job_seeker" />
-                    <Label htmlFor="job_seeker">Job Seeker</Label>
+                    <Label htmlFor="job_seeker" className="flex items-center gap-1">
+                      <UserIcon className="h-4 w-4" />
+                      <span>Job Seeker</span>
+                    </Label>
                   </div>
-                  <div className="flex items-center space-x-1">
+                  <div className="flex items-center space-x-2">
                     <RadioGroupItem value="employer" id="employer" />
-                    <Label htmlFor="employer">Employer</Label>
+                    <Label htmlFor="employer" className="flex items-center gap-1">
+                      <BriefcaseIcon className="h-4 w-4" />
+                      <span>Employer</span>
+                    </Label>
                   </div>
-                  <div className="flex items-center space-x-1">
+                  <div className="flex items-center space-x-2">
                     <RadioGroupItem value="admin" id="admin" />
-                    <Label htmlFor="admin">Admin</Label>
+                    <Label htmlFor="admin" className="flex items-center gap-1">
+                      <ShieldIcon className="h-4 w-4" />
+                      <span>Admin</span>
+                    </Label>
                   </div>
                 </RadioGroup>
               </div>
@@ -166,36 +212,80 @@ const AuthForm = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
+                  autoComplete="email"
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="register-password">Password</Label>
-                <Input
-                  id="register-password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
+                <div className="relative">
+                  <Input
+                    id="register-password"
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    autoComplete="new-password"
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="absolute right-0 top-0"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <EyeOffIcon className="h-4 w-4" />
+                    ) : (
+                      <EyeIcon className="h-4 w-4" />
+                    )}
+                  </Button>
+                </div>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Password must be at least 6 characters long
+                </p>
               </div>
               <div className="space-y-2">
                 <Label>I am registering as a:</Label>
                 <RadioGroup
                   value={role}
                   onValueChange={(value) => setRole(value as UserRole)}
-                  className="flex space-x-2"
+                  className="grid grid-cols-1 gap-2 sm:grid-cols-3"
                 >
-                  <div className="flex items-center space-x-1">
-                    <RadioGroupItem value="job_seeker" id="register_job_seeker" />
-                    <Label htmlFor="register_job_seeker">Job Seeker</Label>
+                  <div className="flex items-center justify-center rounded-md border p-2 hover:bg-accent">
+                    <RadioGroupItem value="job_seeker" id="register_job_seeker" className="sr-only" />
+                    <Label
+                      htmlFor="register_job_seeker"
+                      className={`flex flex-col items-center justify-center gap-1 cursor-pointer ${
+                        role === "job_seeker" ? "text-primary" : ""
+                      }`}
+                    >
+                      <UserIcon className="h-5 w-5" />
+                      <span>Job Seeker</span>
+                    </Label>
                   </div>
-                  <div className="flex items-center space-x-1">
-                    <RadioGroupItem value="employer" id="register_employer" />
-                    <Label htmlFor="register_employer">Employer</Label>
+                  <div className="flex items-center justify-center rounded-md border p-2 hover:bg-accent">
+                    <RadioGroupItem value="employer" id="register_employer" className="sr-only" />
+                    <Label
+                      htmlFor="register_employer"
+                      className={`flex flex-col items-center justify-center gap-1 cursor-pointer ${
+                        role === "employer" ? "text-primary" : ""
+                      }`}
+                    >
+                      <BriefcaseIcon className="h-5 w-5" />
+                      <span>Employer</span>
+                    </Label>
                   </div>
-                  <div className="flex items-center space-x-1">
-                    <RadioGroupItem value="admin" id="register_admin" />
-                    <Label htmlFor="register_admin">Admin</Label>
+                  <div className="flex items-center justify-center rounded-md border p-2 hover:bg-accent">
+                    <RadioGroupItem value="admin" id="register_admin" className="sr-only" />
+                    <Label
+                      htmlFor="register_admin"
+                      className={`flex flex-col items-center justify-center gap-1 cursor-pointer ${
+                        role === "admin" ? "text-primary" : ""
+                      }`}
+                    >
+                      <ShieldIcon className="h-5 w-5" />
+                      <span>Admin</span>
+                    </Label>
                   </div>
                 </RadioGroup>
               </div>
@@ -215,6 +305,7 @@ const AuthForm = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
+                  autoComplete="email"
                 />
               </div>
               <div className="flex flex-col space-y-2">
@@ -234,7 +325,7 @@ const AuthForm = () => {
           </TabsContent>
         </CardContent>
         <CardFooter className="flex justify-center">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-muted-foreground">
             {activeTab === "login"
               ? "Don't have an account? "
               : "Already have an account? "}

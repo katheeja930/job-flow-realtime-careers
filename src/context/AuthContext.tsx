@@ -18,24 +18,36 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  // This would normally connect to Supabase
+  // Check if user is already logged in on mount
   useEffect(() => {
-    // Mock: Check if user is already logged in
-    const storedUser = localStorage.getItem("jobflow_user");
-    if (storedUser) {
+    const checkAuthStatus = async () => {
       try {
-        setUser(JSON.parse(storedUser));
+        const storedUser = localStorage.getItem("jobflow_user");
+        if (storedUser) {
+          setUser(JSON.parse(storedUser));
+        }
       } catch (error) {
         console.error("Failed to parse stored user", error);
+        // Clear invalid storage data
+        localStorage.removeItem("jobflow_user");
+      } finally {
+        setIsLoading(false);
       }
-    }
-    setIsLoading(false);
+    };
+
+    checkAuthStatus();
   }, []);
 
   const signIn = async (email: string, password: string, role: UserRole) => {
     try {
       setIsLoading(true);
-      // Mock authentication
+      
+      // Validate inputs
+      if (!email || !password) {
+        throw new Error("Email and password are required");
+      }
+      
+      // Mock authentication - in a real app, this would be an API call
       const mockUser: User = {
         id: Math.random().toString(36).substr(2, 9),
         email,
@@ -43,17 +55,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         created_at: new Date().toISOString(),
       };
       
+      // Simulate network delay
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
       localStorage.setItem("jobflow_user", JSON.stringify(mockUser));
       setUser(mockUser);
+      
       toast({
         title: "Sign In Successful",
-        description: "Welcome back!",
+        description: `Welcome back, ${email}!`,
       });
     } catch (error) {
       console.error("Sign in error:", error);
       toast({
         title: "Sign In Failed",
-        description: "Please check your credentials and try again.",
+        description: error instanceof Error ? error.message : "Please check your credentials and try again.",
         variant: "destructive",
       });
       throw error;
@@ -65,7 +81,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signUp = async (email: string, password: string, role: UserRole) => {
     try {
       setIsLoading(true);
-      // Mock registration
+      
+      // Validate inputs
+      if (!email || !password) {
+        throw new Error("Email and password are required");
+      }
+      
+      if (password.length < 6) {
+        throw new Error("Password must be at least 6 characters");
+      }
+      
+      // Mock registration - in a real app, this would be an API call
       const mockUser: User = {
         id: Math.random().toString(36).substr(2, 9),
         email,
@@ -73,8 +99,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         created_at: new Date().toISOString(),
       };
       
+      // Simulate network delay
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
       localStorage.setItem("jobflow_user", JSON.stringify(mockUser));
       setUser(mockUser);
+      
       toast({
         title: "Registration Successful",
         description: "Your account has been created.",
@@ -83,7 +113,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       console.error("Sign up error:", error);
       toast({
         title: "Registration Failed",
-        description: "Please try again later.",
+        description: error instanceof Error ? error.message : "Please try again later.",
         variant: "destructive",
       });
       throw error;
@@ -95,9 +125,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signOut = async () => {
     try {
       setIsLoading(true);
-      // Mock signout
+      
+      // Simulate network delay
+      await new Promise(resolve => setTimeout(resolve, 300));
+      
       localStorage.removeItem("jobflow_user");
       setUser(null);
+      
       toast({
         title: "Signed Out",
         description: "You have been successfully signed out.",
@@ -117,7 +151,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const resetPassword = async (email: string) => {
     try {
       setIsLoading(true);
-      // Mock password reset
+      
+      if (!email) {
+        throw new Error("Email is required");
+      }
+      
+      // Simulate network delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
       toast({
         title: "Password Reset Email Sent",
         description: "Please check your email for further instructions.",
@@ -126,7 +167,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       console.error("Reset password error:", error);
       toast({
         title: "Password Reset Failed",
-        description: "Please try again later.",
+        description: error instanceof Error ? error.message : "Please try again later.",
         variant: "destructive",
       });
       throw error;
