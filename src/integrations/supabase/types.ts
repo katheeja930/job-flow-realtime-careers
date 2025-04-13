@@ -9,6 +9,136 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      education: {
+        Row: {
+          created_at: string
+          current: boolean
+          degree: string
+          end_date: string | null
+          field_of_study: string
+          id: string
+          institution: string
+          profile_id: string
+          start_date: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          current?: boolean
+          degree: string
+          end_date?: string | null
+          field_of_study: string
+          id?: string
+          institution: string
+          profile_id: string
+          start_date: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          current?: boolean
+          degree?: string
+          end_date?: string | null
+          field_of_study?: string
+          id?: string
+          institution?: string
+          profile_id?: string
+          start_date?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "education_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "job_seeker_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      experiences: {
+        Row: {
+          company: string
+          created_at: string
+          current: boolean
+          description: string | null
+          end_date: string | null
+          id: string
+          profile_id: string
+          start_date: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          company: string
+          created_at?: string
+          current?: boolean
+          description?: string | null
+          end_date?: string | null
+          id?: string
+          profile_id: string
+          start_date: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          company?: string
+          created_at?: string
+          current?: boolean
+          description?: string | null
+          end_date?: string | null
+          id?: string
+          profile_id?: string
+          start_date?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "experiences_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "job_seeker_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      job_seeker_profiles: {
+        Row: {
+          created_at: string
+          full_name: string
+          id: string
+          location: string | null
+          profile_image_url: string | null
+          summary: string | null
+          title: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          full_name: string
+          id?: string
+          location?: string | null
+          profile_image_url?: string | null
+          summary?: string | null
+          title?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          full_name?: string
+          id?: string
+          location?: string | null
+          profile_image_url?: string | null
+          summary?: string | null
+          title?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -38,6 +168,35 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: []
+      }
+      skills: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          profile_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          profile_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          profile_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "skills_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "job_seeker_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
