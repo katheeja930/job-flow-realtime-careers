@@ -87,6 +87,9 @@ export type JobApplication = {
   updated_at: string;
   job_title?: string;
   company_name?: string;
+  applicant_name: string;
+  applicant_avatar?: string;
+  applied_at: string;
 };
 
 export type JobAlert = {

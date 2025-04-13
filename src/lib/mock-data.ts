@@ -1,4 +1,3 @@
-
 import { JobListing, JobApplication, JobSeekerProfile, EmployerProfile, Notification, ReportData } from "@/types";
 
 // Job Listings Data
@@ -145,7 +144,7 @@ export const mockJobListings: JobListing[] = [
   },
 ];
 
-// Job Applications Data
+// Mock job applications data with applicant details
 export const mockJobApplications: JobApplication[] = [
   {
     id: "app-1",
@@ -157,7 +156,10 @@ export const mockJobApplications: JobApplication[] = [
     created_at: "2023-01-20T15:30:00Z",
     updated_at: "2023-01-20T15:30:00Z",
     job_title: "Senior Frontend Developer",
-    company_name: "TechCorp Inc."
+    company_name: "TechCorp Inc.",
+    applicant_name: "John Doe",
+    applicant_avatar: "https://placehold.co/40",
+    applied_at: "2023-01-20T15:30:00Z"
   },
   {
     id: "app-2",
@@ -169,7 +171,10 @@ export const mockJobApplications: JobApplication[] = [
     created_at: "2023-03-10T09:45:00Z",
     updated_at: "2023-03-12T13:20:00Z",
     job_title: "UX/UI Designer",
-    company_name: "Creative Solutions"
+    company_name: "Creative Solutions",
+    applicant_name: "John Doe",
+    applicant_avatar: "https://placehold.co/40",
+    applied_at: "2023-03-10T09:45:00Z"
   },
   {
     id: "app-3",
@@ -181,7 +186,10 @@ export const mockJobApplications: JobApplication[] = [
     created_at: "2023-05-20T10:15:00Z",
     updated_at: "2023-05-25T14:30:00Z",
     job_title: "Product Manager",
-    company_name: "DataFlow Systems"
+    company_name: "DataFlow Systems",
+    applicant_name: "John Doe",
+    applicant_avatar: "https://placehold.co/40",
+    applied_at: "2023-05-20T10:15:00Z"
   },
   {
     id: "app-4",
@@ -193,7 +201,10 @@ export const mockJobApplications: JobApplication[] = [
     created_at: "2023-02-25T11:00:00Z",
     updated_at: "2023-03-05T16:45:00Z",
     job_title: "Backend Engineer",
-    company_name: "DataFlow Systems"
+    company_name: "DataFlow Systems",
+    applicant_name: "John Doe",
+    applicant_avatar: "https://placehold.co/40",
+    applied_at: "2023-02-25T11:00:00Z"
   },
 ];
 
@@ -308,7 +319,7 @@ export const getJobListings = () => {
 };
 
 // Mock service to get job applications
-export const getJobApplications = (userId: string) => {
+export const getJobApplications = (userId?: string) => {
   return Promise.resolve(mockJobApplications);
 };
 
@@ -354,7 +365,10 @@ export const createJobApplication = (
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
     job_title: job.title,
-    company_name: job.company_name
+    company_name: job.company_name,
+    applicant_name: "John Doe",
+    applicant_avatar: "https://placehold.co/40",
+    applied_at: new Date().toISOString()
   };
 
   // This would normally add to the database

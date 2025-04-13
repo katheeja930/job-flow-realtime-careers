@@ -39,6 +39,15 @@ const EmployerListingsPage = () => {
     loadJobs();
   }, [user, toast]);
 
+  const handleRemoveJob = (jobId: string) => {
+    // In a real app, this would make an API call to remove the job
+    setJobs(prev => prev.filter(job => job.id !== jobId));
+    toast({
+      title: "Job removed",
+      description: "The job listing has been removed",
+    });
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-6">
@@ -77,10 +86,7 @@ const EmployerListingsPage = () => {
                     className="text-destructive"
                     onClick={(e) => {
                       e.stopPropagation();
-                      toast({
-                        title: "Job removed",
-                        description: "The job listing has been removed",
-                      });
+                      handleRemoveJob(job.id);
                     }}
                   >
                     Remove

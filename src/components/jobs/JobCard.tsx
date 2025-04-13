@@ -11,9 +11,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 interface JobCardProps {
   job: JobListing;
   applied?: boolean;
+  actions?: React.ReactNode;
 }
 
-const JobCard = ({ job, applied = false }: JobCardProps) => {
+const JobCard = ({ job, applied = false, actions }: JobCardProps) => {
   const formatSalary = () => {
     if (!job.salary_min && !job.salary_max) {
       return "Not specified";
@@ -86,17 +87,20 @@ const JobCard = ({ job, applied = false }: JobCardProps) => {
         <p className="text-sm line-clamp-2">
           {job.description}
         </p>
+        {actions && <div className="mt-4">{actions}</div>}
       </CardContent>
       <CardFooter className="flex items-center justify-between pt-2">
         <div className="text-xs text-muted-foreground flex items-center">
           <ClockIcon className="h-3 w-3 mr-1" />
           {formatDistanceToNow(new Date(job.created_at), { addSuffix: true })}
         </div>
-        <Link to={`/jobs/${job.id}`}>
-          <Button variant="outline" size="sm">
-            View Details
-          </Button>
-        </Link>
+        {!actions && (
+          <Link to={`/jobs/${job.id}`}>
+            <Button variant="outline" size="sm">
+              View Details
+            </Button>
+          </Link>
+        )}
       </CardFooter>
     </Card>
   );
