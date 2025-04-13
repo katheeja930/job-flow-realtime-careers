@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
@@ -302,6 +301,20 @@ const ProfilePage = () => {
     }
   };
   
+  const handleTabChange = (value: string) => {
+    // Only allow tab change if user has created their profile
+    if (value !== "basic" && !profile?.id) {
+      toast({
+        title: "Complete basic info first",
+        description: "Please save your basic profile information before adding other details.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    setActiveTab(value);
+  };
+  
   if (loading) {
     return (
       <div className="container mx-auto px-4 py-8 flex items-center justify-center min-h-[60vh]">
@@ -322,13 +335,13 @@ const ProfilePage = () => {
         </p>
       </div>
       
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+      <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-6">
         <div className="sticky top-16 z-10 bg-background pb-2">
           <TabsList className="w-full grid grid-cols-2 md:grid-cols-4 gap-2">
             <TabsTrigger value="basic">Basic Info</TabsTrigger>
-            <TabsTrigger value="skills" disabled={!profile?.id}>Skills</TabsTrigger>
-            <TabsTrigger value="experience" disabled={!profile?.id}>Experience</TabsTrigger>
-            <TabsTrigger value="education" disabled={!profile?.id}>Education</TabsTrigger>
+            <TabsTrigger value="skills">Skills</TabsTrigger>
+            <TabsTrigger value="experience">Experience</TabsTrigger>
+            <TabsTrigger value="education">Education</TabsTrigger>
           </TabsList>
         </div>
         

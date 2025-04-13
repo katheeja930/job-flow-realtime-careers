@@ -12,6 +12,11 @@ import JobsPage from "./pages/JobsPage";
 import JobDetailPage from "./pages/JobDetailPage";
 import ApplicationsPage from "./pages/ApplicationsPage";
 import ProfilePage from "./pages/ProfilePage";
+import ContactPage from "./pages/ContactPage";
+import FAQPage from "./pages/FAQPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import TermsPage from "./pages/TermsPage";
+import JobAlertsPage from "./pages/JobAlertsPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,6 +36,11 @@ const App = () => (
               <Route path="/jobs/:id" element={<JobDetailPage />} />
               <Route path="/applications" element={<ApplicationsPage />} />
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="/faq" element={<FAQPage />} />
+              <Route path="/privacy" element={<PrivacyPolicyPage />} />
+              <Route path="/terms" element={<TermsPage />} />
+              <Route path="/alerts" element={<JobAlertsPage />} />
               <Route path="/employer/listings" element={<div>Employer Listings (Coming Soon)</div>} />
               <Route path="/employer/listings/new" element={<div>Create Job Listing (Coming Soon)</div>} />
               <Route path="/employer/applications" element={<div>Employer Applications (Coming Soon)</div>} />
