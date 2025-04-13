@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -18,6 +17,11 @@ import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import TermsPage from "./pages/TermsPage";
 import JobAlertsPage from "./pages/JobAlertsPage";
 import NotFound from "./pages/NotFound";
+
+import EmployerListingsPage from "./pages/employer/EmployerListingsPage";
+import CreateJobPage from "./pages/employer/CreateJobPage";
+import EmployerApplicationsPage from "./pages/employer/EmployerApplicationsPage";
+import EmployerProfilePage from "./pages/employer/EmployerProfilePage";
 
 const queryClient = new QueryClient();
 
@@ -41,10 +45,12 @@ const App = () => (
               <Route path="/privacy" element={<PrivacyPolicyPage />} />
               <Route path="/terms" element={<TermsPage />} />
               <Route path="/alerts" element={<JobAlertsPage />} />
-              <Route path="/employer/listings" element={<div>Employer Listings (Coming Soon)</div>} />
-              <Route path="/employer/listings/new" element={<div>Create Job Listing (Coming Soon)</div>} />
-              <Route path="/employer/applications" element={<div>Employer Applications (Coming Soon)</div>} />
-              <Route path="/employer/profile" element={<div>Employer Profile (Coming Soon)</div>} />
+              
+              <Route path="/employer/listings" element={<EmployerListingsPage />} />
+              <Route path="/employer/listings/new" element={<CreateJobPage />} />
+              <Route path="/employer/applications" element={<EmployerApplicationsPage />} />
+              <Route path="/employer/profile" element={<EmployerProfilePage />} />
+              
               <Route path="/admin/analytics" element={<div>Admin Analytics (Coming Soon)</div>} />
               <Route path="/admin/users" element={<div>Admin Users (Coming Soon)</div>} />
               <Route path="/admin/reports" element={<div>Admin Reports (Coming Soon)</div>} />
