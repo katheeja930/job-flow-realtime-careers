@@ -14,21 +14,13 @@ const HeroSection = () => {
         <p className="text-lg md:text-xl max-w-3xl mx-auto mb-8">
           Connect with top employers and find real-time job opportunities that match your skills and experience.
         </p>
-        <div className="flex flex-col sm:flex-row justify-center gap-4">
+        <div className="flex justify-center">
           <Button
             size="lg"
             className="bg-white text-primary hover:bg-white/90"
             onClick={() => navigate("/auth")}
           >
             Find a Job
-          </Button>
-          <Button
-            size="lg"
-            variant="outline"
-            className="border-white text-white hover:bg-white/10"
-            onClick={() => navigate("/auth")}
-          >
-            For Employers
           </Button>
         </div>
       </div>

@@ -11,7 +11,7 @@ const CallToAction = () => {
         Ready to Start Your Career Journey?
       </h2>
       <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
-        Join thousands of job seekers who have found their perfect role through JobFlow.
+        Join thousands of job seekers who have found their perfect role through Jobverse.
       </p>
       <Button size="lg" onClick={() => navigate("/auth")}>
         Create Your Account

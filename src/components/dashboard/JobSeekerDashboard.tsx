@@ -6,6 +6,7 @@ import JobList from "@/components/jobs/JobList";
 import { JobListing, JobApplication } from "@/types";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { BotIcon, BookOpenIcon, BriefcaseIcon, LineChartIcon } from "lucide-react";
+import { Scene3D } from "@/components/visuals/Scene3D";
 
 interface JobSeekerDashboardProps {
   jobs: JobListing[];
@@ -28,6 +29,7 @@ const JobSeekerDashboard = ({
         <TabsTrigger value="recommendations">Recommended Jobs</TabsTrigger>
         <TabsTrigger value="applications">My Applications</TabsTrigger>
         <TabsTrigger value="ai-insights">AI Insights</TabsTrigger>
+        <TabsTrigger value="visualization">3D Visualization</TabsTrigger>
       </TabsList>
       
       <TabsContent value="recommendations">
@@ -139,6 +141,13 @@ const JobSeekerDashboard = ({
               </Button>
             </CardContent>
           </Card>
+        </div>
+      </TabsContent>
+      
+      <TabsContent value="visualization" className="h-[500px]">
+        <h2 className="text-2xl font-semibold mb-4">Career Journey Visualization</h2>
+        <div className="w-full h-[400px] rounded-lg overflow-hidden border">
+          <Scene3D />
         </div>
       </TabsContent>
     </Tabs>

@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
@@ -13,7 +13,9 @@ import {
   HomeIcon,
   AlertCircleIcon,
   BarChartIcon,
-  SettingsIcon
+  SettingsIcon,
+  SunIcon,
+  MoonIcon
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -28,11 +30,13 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { toast } from "@/components/ui/use-toast";
 import { mockNotifications } from "@/lib/mock-data";
 import { Badge } from "@/components/ui/badge";
+import { useTheme } from "@/context/ThemeContext";
 
 const Header = () => {
   const { user, signOut } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const { theme, setTheme } = useTheme();
 
   const handleSignOut = async () => {
     await signOut();
@@ -114,13 +118,17 @@ const Header = () => {
 
   const navItems = getNavItems();
 
+  const toggleTheme = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
+  };
+
   return (
     <header className="border-b sticky top-0 z-50 bg-background">
       <div className="container mx-auto px-4 flex items-center justify-between h-16">
         <div className="flex items-center">
           <Link to="/" className="flex items-center">
             <BriefcaseIcon className="h-6 w-6 text-primary mr-2" />
-            <span className="font-bold text-xl">JobFlow</span>
+            <span className="font-bold text-xl">Jobverse</span>
           </Link>
         </div>
 
@@ -140,6 +148,19 @@ const Header = () => {
         )}
 
         <div className="flex items-center space-x-4">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={toggleTheme}
+            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+          >
+            {theme === 'dark' ? (
+              <SunIcon className="h-5 w-5" />
+            ) : (
+              <MoonIcon className="h-5 w-5" />
+            )}
+          </Button>
+          
           {user ? (
             <>
               <DropdownMenu>
