@@ -26,6 +26,9 @@ const EmployerDashboard = ({ jobs, isLoading }: EmployerDashboardProps) => {
           <Button variant="outline" onClick={() => navigate("/employer/applications")}>
             Review Applications
           </Button>
+          <Button variant="outline" onClick={() => navigate("/employer/candidates")}>
+            Manage Candidates
+          </Button>
         </div>
       </div>
       
