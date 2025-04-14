@@ -48,7 +48,7 @@ const CandidateFilters = ({
             <SelectValue placeholder="Filter by status" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Statuses</SelectItem>
+            <SelectItem value="all">All Statuses</SelectItem>
             <SelectItem value="pending">Pending</SelectItem>
             <SelectItem value="reviewing">Under Review</SelectItem>
             <SelectItem value="accepted">Accepted</SelectItem>
@@ -61,7 +61,7 @@ const CandidateFilters = ({
             <SelectValue placeholder="Filter by job" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Jobs</SelectItem>
+            <SelectItem value="all">All Jobs</SelectItem>
             {jobs.map((job) => (
               <SelectItem key={job.id} value={job.id}>
                 {job.title}

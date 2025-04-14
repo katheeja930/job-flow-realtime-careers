@@ -14,8 +14,8 @@ export const useCandidateManagement = () => {
   
   // Filters
   const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState("");
-  const [jobFilter, setJobFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [jobFilter, setJobFilter] = useState("all");
 
   useEffect(() => {
     const loadData = async () => {
@@ -57,8 +57,8 @@ export const useCandidateManagement = () => {
     const matchesSearch = app.applicant_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (app.cover_letter && app.cover_letter.toLowerCase().includes(searchTerm.toLowerCase()));
     
-    const matchesStatus = statusFilter ? app.status === statusFilter : true;
-    const matchesJob = jobFilter ? app.job_id === jobFilter : true;
+    const matchesStatus = statusFilter === "all" ? true : app.status === statusFilter;
+    const matchesJob = jobFilter === "all" ? true : app.job_id === jobFilter;
     
     return matchesSearch && matchesStatus && matchesJob;
   });
