@@ -63,15 +63,22 @@ export const useCandidateManagement = () => {
     return matchesSearch && matchesStatus && matchesJob;
   });
 
-  const handleUpdateStatus = (appId: string, status: "accepted" | "rejected") => {
+  const handleUpdateStatus = (appId: string, status: "pending" | "reviewing" | "accepted" | "rejected") => {
     // Update application status (this would be a database call in a real app)
     setApplications(prev => 
       prev.map(app => app.id === appId ? {...app, status} : app)
     );
     
+    const statusText = {
+      "pending": "pending review",
+      "reviewing": "under review",
+      "accepted": "accepted",
+      "rejected": "rejected"
+    };
+    
     toast({
-      title: `Candidate ${status === "accepted" ? "accepted" : "rejected"}`,
-      description: `The candidate has been ${status === "accepted" ? "accepted" : "rejected"} successfully.`,
+      title: `Candidate ${statusText[status]}`,
+      description: `The candidate has been marked as ${statusText[status]}.`,
     });
   };
 
