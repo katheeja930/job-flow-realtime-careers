@@ -3,13 +3,14 @@ import { ReactNode } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import { useAuth } from "@/context/AuthContext";
+import { ChatbotDrawer } from "@/components/chat/ChatbotDrawer";
 
 interface LayoutProps {
   children: ReactNode;
 }
 
 const Layout = ({ children }: LayoutProps) => {
-  const { isLoading } = useAuth();
+  const { isLoading, user } = useAuth();
 
   if (isLoading) {
     return (
@@ -27,6 +28,7 @@ const Layout = ({ children }: LayoutProps) => {
       <Header />
       <main className="flex-grow">{children}</main>
       <Footer />
+      {user && <ChatbotDrawer />}
     </div>
   );
 };
