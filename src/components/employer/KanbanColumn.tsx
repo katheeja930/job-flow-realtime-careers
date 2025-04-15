@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { JobApplication, JobListing } from "@/types";
 import CandidateCard from "./CandidateCard";
+import { AlertCircle } from "lucide-react";
 
 interface KanbanColumnProps {
   title: string;
@@ -36,6 +37,21 @@ const KanbanColumn = ({
     }
   };
 
+  const getStatusIconColor = () => {
+    switch (status) {
+      case "pending":
+        return "text-amber-500";
+      case "reviewing":
+        return "text-blue-500";
+      case "accepted":
+        return "text-green-500";
+      case "rejected":
+        return "text-red-500";
+      default:
+        return "text-gray-500";
+    }
+  };
+
   const getJobTitle = (jobId: string) => {
     const job = jobs.find(j => j.id === jobId);
     return job ? job.title : "Unknown Position";
@@ -43,26 +59,33 @@ const KanbanColumn = ({
 
   return (
     <Card className={`h-full ${getColorClass()}`}>
-      <CardHeader className="pb-2">
+      <CardHeader className="pb-2 px-3 pt-3">
         <div className="flex justify-between items-center">
-          <CardTitle className="text-lg font-medium">{title}</CardTitle>
-          <Badge variant="secondary">{count}</Badge>
+          <div className="flex items-center gap-2">
+            <AlertCircle className={`h-4 w-4 ${getStatusIconColor()}`} />
+            <CardTitle className="text-sm font-medium">{title}</CardTitle>
+          </div>
+          <Badge variant="secondary" className="rounded-full px-2.5 py-0.5 text-xs">
+            {count}
+          </Badge>
         </div>
       </CardHeader>
-      <CardContent className="overflow-y-auto max-h-[calc(100vh-200px)]">
+      <CardContent className="overflow-y-auto p-2 max-h-[calc(100vh-220px)]">
         {applications.length > 0 ? (
-          applications.map(application => (
-            <CandidateCard
-              key={application.id}
-              application={application}
-              jobTitle={getJobTitle(application.job_id)}
-              onUpdateStatus={onUpdateStatus}
-            />
-          ))
+          <div className="space-y-2">
+            {applications.map(application => (
+              <CandidateCard
+                key={application.id}
+                application={application}
+                jobTitle={getJobTitle(application.job_id)}
+                onUpdateStatus={onUpdateStatus}
+              />
+            ))}
+          </div>
         ) : (
-          <p className="text-center py-8 text-muted-foreground">
+          <div className="flex items-center justify-center h-24 text-sm text-muted-foreground bg-background/50 rounded-md border border-dashed">
             No candidates in this stage
-          </p>
+          </div>
         )}
       </CardContent>
     </Card>
