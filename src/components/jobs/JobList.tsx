@@ -103,7 +103,7 @@ const JobList = ({ jobs, appliedJobIds = [] }: JobListProps) => {
                       <SelectValue placeholder="Select job type" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">All Types</SelectItem>
+                      <SelectItem value="all">All Types</SelectItem>
                       <SelectItem value="full_time">Full Time</SelectItem>
                       <SelectItem value="part_time">Part Time</SelectItem>
                       <SelectItem value="contract">Contract</SelectItem>
