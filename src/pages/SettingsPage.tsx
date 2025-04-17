@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { 
   Card, 
   CardContent, 
@@ -22,10 +22,19 @@ import { toast } from "@/components/ui/use-toast";
 import { useAuth } from "@/context/AuthContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
+import { useNavigate } from "react-router-dom";
 
 const SettingsPage = () => {
   const { theme, setTheme } = useTheme();
   const { user } = useAuth();
+  const navigate = useNavigate();
+  
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!user) {
+      navigate("/auth");
+    }
+  }, [user, navigate]);
   
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [pushNotifications, setPushNotifications] = useState(true);
@@ -71,6 +80,10 @@ const SettingsPage = () => {
     setConfirmPassword("");
   };
 
+  if (!user) {
+    return null; // Don't render anything if not authenticated
+  }
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">Settings</h1>
@@ -94,7 +107,16 @@ const SettingsPage = () => {
               <CardContent className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="theme">Theme</Label>
-                  <Select value={theme} onValueChange={(value) => setTheme(value as 'light' | 'dark')}>
+                  <Select 
+                    value={theme} 
+                    onValueChange={(value) => {
+                      setTheme(value as 'light' | 'dark');
+                      toast({
+                        title: "Theme updated",
+                        description: `Theme changed to ${value}.`
+                      });
+                    }}
+                  >
                     <SelectTrigger id="theme">
                       <SelectValue placeholder="Select theme" />
                     </SelectTrigger>
@@ -131,7 +153,13 @@ const SettingsPage = () => {
                   <Switch 
                     id="email-notifications" 
                     checked={emailNotifications}
-                    onCheckedChange={setEmailNotifications}
+                    onCheckedChange={(checked) => {
+                      setEmailNotifications(checked);
+                      toast({
+                        title: "Email notifications " + (checked ? "enabled" : "disabled"),
+                        description: "Your notification preferences have been updated."
+                      });
+                    }}
                   />
                 </div>
                 
@@ -140,7 +168,13 @@ const SettingsPage = () => {
                   <Switch 
                     id="push-notifications" 
                     checked={pushNotifications}
-                    onCheckedChange={setPushNotifications}
+                    onCheckedChange={(checked) => {
+                      setPushNotifications(checked);
+                      toast({
+                        title: "Push notifications " + (checked ? "enabled" : "disabled"),
+                        description: "Your notification preferences have been updated."
+                      });
+                    }}
                   />
                 </div>
                 
