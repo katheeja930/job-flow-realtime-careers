@@ -28,7 +28,7 @@ const Layout = ({ children }: LayoutProps) => {
       <Header />
       <main className="flex-grow">{children}</main>
       <Footer />
-      {user && <ChatbotDrawer />}
+      <ChatbotDrawer />
     </div>
   );
 };

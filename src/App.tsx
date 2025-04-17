@@ -56,9 +56,9 @@ const App = () => (
                 <Route path="/employer/profile" element={<EmployerProfilePage />} />
                 <Route path="/employer/candidates" element={<CandidateManagementPage />} />
                 
-                <Route path="/admin/analytics" element={<div>Admin Analytics (Coming Soon)</div>} />
-                <Route path="/admin/users" element={<div>Admin Users (Coming Soon)</div>} />
-                <Route path="/admin/reports" element={<div>Admin Reports (Coming Soon)</div>} />
+                <Route path="/admin/analytics" element={<Index />} />
+                <Route path="/admin/users" element={<Index />} />
+                <Route path="/admin/reports" element={<Index />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Layout>
