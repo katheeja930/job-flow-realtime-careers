@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -46,7 +45,6 @@ const Header = () => {
     (n) => !n.is_read
   ).length;
 
-  // Role-based navigation items
   const getNavItems = () => {
     if (!user) return [];
 
@@ -192,7 +190,6 @@ const Header = () => {
                             to={notification.link || "#"} 
                             className={`flex flex-col p-2 cursor-pointer ${!notification.is_read ? 'bg-muted/50' : ''}`}
                             onClick={() => {
-                              // Mark as read
                               toast({
                                 title: "Notification viewed",
                                 description: "Notification marked as read",

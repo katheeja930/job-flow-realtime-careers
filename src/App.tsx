@@ -18,6 +18,7 @@ import FAQPage from "./pages/FAQPage";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
 import TermsPage from "./pages/TermsPage";
 import JobAlertsPage from "./pages/JobAlertsPage";
+import SettingsPage from "./pages/SettingsPage";
 import NotFound from "./pages/NotFound";
 
 import EmployerListingsPage from "./pages/employer/EmployerListingsPage";
@@ -44,6 +45,7 @@ const App = () => (
                 <Route path="/jobs/:id" element={<JobDetailPage />} />
                 <Route path="/applications" element={<ApplicationsPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/settings" element={<SettingsPage />} />
                 <Route path="/contact" element={<ContactPage />} />
                 <Route path="/faq" element={<FAQPage />} />
                 <Route path="/privacy" element={<PrivacyPolicyPage />} />
